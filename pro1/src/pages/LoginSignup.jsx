@@ -1,12 +1,12 @@
 import { useState } from "react";
-import "./auth.css";
 import logo from "../svg/logo.svg";
 import facebook from "../svg/facebook.svg";
 import instagram from "../svg/instagram.svg";
 import linkedin from "../svg/linkedin.svg";
+import "../pages/auth.css";
 
-export default function LoginSignup() {
-  const [showLogin, setShowLogin] = useState(true);
+function LoginSignup() {
+  const [isLogin, setIsLogin] = useState(true);
 
   return (
     <>
@@ -18,64 +18,68 @@ export default function LoginSignup() {
         </div>
       </header>
 
-      {/* LOGIN + SIGNUP BOX */}
-      <div className="login-container">
-        <div className={`login-box ${showLogin ? "show-login" : "show-signup"}`}>
-          <div className="form-wrapper">
-            {/* LOGIN FORM */}
-            <div className={`form login-form ${showLogin ? "active" : ""}`}>
-              <h2>LOGIN</h2>
-              <div className="line"></div>
+      {/* MAIN CONTAINER */}
+      <main className="auth-main">
+  {/* Floating background items */}
+  <div className="floating-icons">
+    <i className="bi bi-book book"></i>
+    <i className="bi bi-pencil pencil"></i>
+    <i className="bi bi-journal-text journal"></i>
+    <i className="bi bi-pen pen"></i>
+  </div>
 
-              <input type="email" placeholder="Email" />
-              <input type="password" placeholder="Password" />
+  <div className={`auth-container ${isLogin ? "show-login" : "show-register"}`}>
+    {/* LOGIN BOX */}
+    <div className="login-box form-box">
+      <h2>LOGIN</h2>
+      <div className="line"></div>
+      <input type="email" placeholder="Email" />
+      <input type="password" placeholder="Password" />
+      <button className="login-btn">Login</button>
+      <p className="register-text">
+        Don’t have an account?{" "}
+        <span onClick={() => setIsLogin(false)}>Register</span>
+      </p>
+    </div>
 
-              <button className="login-btn">Login</button>
+    {/* REGISTER BOX */}
+    <div className="register-box form-box">
+      <h2>REGISTER</h2>
+      <div className="line"></div>
+      <input type="text" placeholder="Username" />
+      <input type="email" placeholder="Email" />
+      <input type="password" placeholder="Password" />
+      <button className="login-btn">Register</button>
+      <p className="register-text">
+        Already have an account?{" "}
+        <span onClick={() => setIsLogin(true)}>Login</span>
+      </p>
+    </div>
+  </div>
+</main>
 
-              <p className="register-text">
-                Don’t have an account?
-                <span onClick={() => setShowLogin(false)}> Register</span>
-              </p>
-            </div>
-
-            {/* SIGNUP FORM */}
-            <div className={`form signup-form ${showLogin ? "" : "active"}`}>
-              <h2>SIGN UP</h2>
-              <div className="line"></div>
-
-              <input type="text" placeholder="Full Name" />
-              <input type="email" placeholder="Email" />
-              <input type="password" placeholder="Password" />
-              <input type="password" placeholder="Confirm Password" />
-
-              <button className="login-btn">Register</button>
-
-              <p className="register-text">
-                Already have an account?
-                <span onClick={() => setShowLogin(true)}> Login</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* FOOTER */}
       <footer className="footer">
-        <div className="footer-links">
-          <a href="#">About Us</a>
-          <a href="#">Help</a>
-        </div>
+        <div className="footer-top">
+          <div className="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Help</a>
+          </div>
 
-        <div className="social-icons">
-          <img src={facebook} alt="Facebook" />
-          <img src={instagram} alt="Instagram" />
-          <img src={linkedin} alt="LinkedIn" />
+          <div className="social-icons">
+            <img src={facebook} alt="Facebook" />
+            <img src={instagram} alt="Instagram" />
+            <img src={linkedin} alt="LinkedIn" />
+          </div>
         </div>
 
         <p className="copyright">
-          Copyright © 2025. Beyond Bound Pages.com. All Rights Reserved
+          © 2025. Beyond Bound Pages.com. All Rights Reserved
         </p>
       </footer>
     </>
   );
 }
+
+export default LoginSignup;

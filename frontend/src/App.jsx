@@ -7,9 +7,8 @@ import "./App.css";
 
 function App() {
   const location = useLocation();
-
-  // Hide Header/Footer on login page
-  const hideHeaderFooter = location.pathname === "/login";
+  const hideHeaderFooterPaths = ["/login"];
+  const hideHeaderFooter = hideHeaderFooterPaths.includes(location.pathname);
 
   return (
     <>

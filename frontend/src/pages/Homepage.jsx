@@ -8,8 +8,7 @@ function Homepage() {
 
   return (
     <>
-      {/* HEADER */}
-      <Header />
+     
 
       {/* HERO SECTION / SLIDER */}
       <div id="heroCarousel" className="carousel slide" data-bs-ride="carousel">
@@ -97,8 +96,7 @@ function Homepage() {
         </div>
       </div>
 
-      {/* FOOTER */}
-      <Footer />
+    
     </>
   );
 }

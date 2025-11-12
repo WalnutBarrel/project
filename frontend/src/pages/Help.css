@@ -1,0 +1,49 @@
+/* ===== HELP PAGE STYLES ===== */
+
+.help-page {
+  background: #f9fafc;
+  color: #333;
+  min-height: 90vh;
+}
+
+/* Title Gradient */
+.text-gradient {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  background-clip: text;              /* ✅ Standard property for Firefox & Edge */
+  -webkit-background-clip: text;      /* ✅ Vendor prefix for Chrome/Safari */
+  color: transparent;
+  -webkit-text-fill-color: transparent; /* ✅ Makes gradient visible */
+}
+
+
+/* Accordion Styling */
+.accordion-button:not(.collapsed) {
+  background-color: #e8f0ff;
+  color: #1e3c72;
+  font-weight: 500;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+}
+
+/* Contact Form */
+.help-form {
+  background: white;
+  border: 1px solid #e0e0e0;
+}
+
+.help-form label {
+  font-weight: 500;
+}
+
+.help-form .btn-primary {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.help-form .btn-primary:hover {
+  background: linear-gradient(135deg, #2a5298, #1e3c72);
+  transform: scale(1.05);
+}

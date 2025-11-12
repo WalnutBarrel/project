@@ -13,8 +13,8 @@ const Header = () => {
 
   return (
     <header className="header">
-      {/* Logo */}
-      <div className="logo">
+      {/* Logo (clickable → Homepage) */}
+      <div className="logo" onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
         <img src={logo} alt="Logo" />
         <span>Beyond Bound Pages</span>
       </div>
@@ -29,7 +29,17 @@ const Header = () => {
           />
 
           <div className="header-right">
-            <img src={cart} alt="Cart" className="cart-icon" />
+            {/* Cart icon (navigates to checkout page) */}
+            <img
+              src={cart}
+              alt="Cart"
+              className="cart-icon"
+              onClick={() => navigate("/checkout")}
+              style={{ cursor: "pointer" }}
+              title="Go to Cart"
+            />
+
+            {/* Login button */}
             <button className="login-btn" onClick={() => navigate("/login")}>
               Login
             </button>

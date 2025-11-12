@@ -1,0 +1,91 @@
+/* =========================
+   ABOUT PAGE STYLES
+   ========================= */
+
+.about-hero {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  padding: 80px 0;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.about-hero h1 {
+  font-weight: 700;
+  font-size: 2.8rem;
+}
+
+.about-hero p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+/* Mission Section */
+.about-mission {
+  margin-top: 70px;
+}
+
+.about-mission img {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.about-mission h2 {
+  color: #2575fc;
+  font-weight: 700;
+}
+
+.about-mission p {
+  color: #555;
+  font-size: 1.1rem;
+}
+
+/* Team Section */
+.about-team {
+  margin-top: 80px;
+  text-align: center;
+}
+
+.about-team h2 {
+  color: #6a11cb;
+  margin-bottom: 40px;
+  font-weight: 700;
+}
+
+.about-team .card {
+  border: none;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-team .card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.about-team .card-title {
+  color: #333;
+  font-weight: 600;
+}
+
+.about-team .card-text {
+  color: #777;
+}
+
+/* Closing Section */
+.about-closing {
+  margin-top: 80px;
+  text-align: center;
+  color: #333;
+}
+
+.about-closing h4 {
+  font-weight: 600;
+  font-style: italic;
+}
+
+.about-closing p {
+  margin-top: 10px;
+  color: #555;
+}

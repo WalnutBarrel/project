@@ -1,0 +1,37 @@
+/* ===== CHECKOUT PAGE ===== */
+.checkout-page {
+  background: #f8f9fc;
+  min-height: 90vh;
+}
+
+/* Gradient Title */
+.text-gradient {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Order Card Styling */
+.order-item img.order-img {
+  width: 70px;
+  height: 90px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.card {
+  border-radius: 10px !important;
+}
+
+button.btn-primary {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+button.btn-primary:hover {
+  background: linear-gradient(135deg, #2a5298, #1e3c72);
+  transform: scale(1.05);
+}

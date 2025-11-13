@@ -201,3 +201,34 @@ body {
     text-align: center;
   }
 }
+
+
+/* CATEGORY BAR */
+.category-bar {
+  background: #ffffff;
+  border-bottom: 2px solid #eee;
+}
+
+.category-item {
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+}
+
+.category-item .dropdown-toggle {
+  color: #333;
+}
+
+.category-item .dropdown-toggle:hover {
+  color: #b22222;
+}
+
+.dropdown-menu {
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.dropdown-item:hover {
+  background-color: #f5f5f5;
+  color: #b22222;
+}

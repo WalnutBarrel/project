@@ -1,0 +1,57 @@
+.book-details-page {
+  padding-bottom: 60px;
+}
+
+/* Book Cover */
+.book-cover {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.book-cover:hover {
+  transform: scale(1.03);
+}
+
+/* Rating */
+.rating-box {
+  background: #ffd700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  display: inline-block;
+  font-weight: bold;
+  color: #222;
+}
+
+/* Price */
+.price {
+  color: #b22222;
+  font-weight: bold;
+}
+
+/* Meta details */
+.detail-meta p {
+  font-size: 16px;
+  margin: 4px 0;
+}
+
+/* Buttons */
+.btn-danger {
+  background-color: #b22222 !important;
+  border: none;
+}
+
+.btn-outline-warning {
+  border-color: #ffd700 !important;
+  color: #b22222 !important;
+}
+
+.btn-outline-warning:hover {
+  background-color: #ffd700;
+  color: black !important;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #eeeeee;
+}

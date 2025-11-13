@@ -4,6 +4,7 @@ import LoginSignup from "./pages/LoginSignup.jsx";
 import About from "./pages/About.jsx";
 import Help from "./pages/Help.jsx";
 import Checkout from "./pages/Checkout.jsx";
+import BookDetails from "./pages/BookDetails.jsx";
 import Header from "./components/header.jsx";
 import Footer from "./components/footer.jsx";
 import "./App.css";
@@ -22,6 +23,7 @@ function App() {
          <Route path="/about" element={<About />} />
          <Route path="/help" element={<Help />} />
          <Route path="/checkout" element={<Checkout />} />
+         <Route path="/book/:id" element={<BookDetails />} />
       </Routes>
       {!hideHeaderFooter && <Footer />}
     </>

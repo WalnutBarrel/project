@@ -1,10 +1,16 @@
 import React from "react";
 import "../App.css";
+import { useEffect } from "react";
 import Header from "../components/header.jsx";
 import Footer from "../components/footer.jsx";
 
 function Homepage() {
+
   const placeholderBooks = Array(4).fill(null);
+
+
+
+  
 
   return (
     <>

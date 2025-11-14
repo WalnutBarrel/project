@@ -16,15 +16,19 @@ function App() {
 
   return (
     <>
+      {/* Header (hidden on /login) */}
       {!hideHeaderFooter && <Header />}
+
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<LoginSignup />} />
-         <Route path="/about" element={<About />} />
-         <Route path="/help" element={<Help />} />
-         <Route path="/checkout" element={<Checkout />} />
-         <Route path="/book/:id" element={<BookDetails />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/help" element={<Help />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/book/:id" element={<BookDetails />} />
       </Routes>
+
+      {/* Footer (hidden on /login) */}
       {!hideHeaderFooter && <Footer />}
     </>
   );

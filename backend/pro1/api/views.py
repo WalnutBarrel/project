@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import User
-from .serializers import UserSerializer
+from .models import User, Book
+from .serializers import UserSerializer, BookSerializer
 from django.contrib.auth.hashers import make_password, check_password
 
 # Signup API
@@ -46,3 +46,27 @@ def login(request):
 
     except User.DoesNotExist:
         return Response({"message": "User not found"}, status=404)
+
+
+@api_view(['GET'])
+def books_list(request):
+    """
+    GET /api/books/  -> list all books
+    """
+    books = Book.objects.all().order_by('id')
+    serializer = BookSerializer(books, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def book_detail(request, pk):
+    """
+    GET /api/books/<id>/  -> single book details
+    """
+    try:
+        book = Book.objects.get(pk=pk)
+    except Book.DoesNotExist:
+        return Response({"message": "Not found"}, status=404)
+
+    serializer = BookSerializer(book)
+    return Response(serializer.data)

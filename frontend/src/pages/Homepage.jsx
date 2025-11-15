@@ -1,12 +1,132 @@
 import React from "react";
 import "../App.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Header from "../components/header.jsx";
 import Footer from "../components/footer.jsx";
 
 function Homepage() {
 
   const placeholderBooks = Array(4).fill(null);
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(8);
+
+  // MUST be before using it
+  const [selectedGenre, setSelectedGenre] = useState("All");
+  const [recommendedFilter, setRecommendedFilter] = useState("None");
+  const [selectedLanguage, setSelectedLanguage] = useState("All");
+
+  const [authors, setAuthors] = useState([]);
+  const [selectedAuthor, setSelectedAuthor] = useState("All");
+
+
+
+const languageMap = {
+  English: "en",
+  Hindi: "hi",
+  Gujarati: "gu",
+};
+
+const fixedAuthorList = [
+  'EduGorilla Prep Experts',
+  'Library of Congress',
+  'R. Reginald',
+  'Pasquale De Marco',
+  'Carolyn Keene',
+  'Rylie Dark',
+  "Unknown"   // (optional)
+];
+
+
+
+  let filteredBooks = books;
+
+// 1. filter by genre
+if (selectedGenre !== "All") {
+  filteredBooks = filteredBooks.filter(
+    (book) => book.genre.toLowerCase().includes(selectedGenre.toLowerCase())
+  );
+}
+
+// 2. filter by recommended
+if (recommendedFilter === "Top Rated") {
+  filteredBooks = filteredBooks
+    .filter((book) => book.rating >= 4.5)
+    .sort((a, b) => b.rating - a.rating);
+}
+
+// 3. filter by language
+if (selectedLanguage !== "All") {
+  const langCode = languageMap[selectedLanguage]; // convert label → code
+
+  filteredBooks = filteredBooks.filter(
+    (book) =>
+      book.language &&
+      book.language.toLowerCase().startsWith(langCode) // match "en", "hi", "gu"
+  );
+}
+
+// 4. filter by author
+if (selectedAuthor !== "All") {
+  filteredBooks = filteredBooks.filter(
+    (book) =>
+      book.author &&
+      book.author.toLowerCase() === selectedAuthor.toLowerCase()
+  );
+}
+
+
+
+
+if (recommendedFilter === "Editor's Picks") {
+  filteredBooks = filteredBooks.filter((book) => book.rating >= 4.0);
+}
+
+if (recommendedFilter === "Trending") {
+  filteredBooks = filteredBooks.sort(() => Math.random() - 0.5); // random shuffle
+}
+
+
+  const displayedBooks = filteredBooks.slice(0, visibleCount);
+
+
+
+
+
+  useEffect(() => {
+  const fetchBooks = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/books/");
+      setBooks(response.data);
+      
+    } catch (error) {
+      console.error("Error fetching books:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchBooks();
+}, []);
+
+
+useEffect(() => {
+  setVisibleCount(8); // reset when genre changes
+}, [selectedGenre]);
+
+useEffect(() => {
+  setVisibleCount(8);
+}, [recommendedFilter]);
+
+useEffect(() => {
+  setVisibleCount(8);
+}, [selectedLanguage]);
+
+useEffect(() => {
+  setVisibleCount(8);
+}, [selectedAuthor]);
+
 
 
 
@@ -73,11 +193,13 @@ function Homepage() {
               Genre
             </span>
             <ul className="dropdown-menu">
-              <li><a className="dropdown-item">Fiction</a></li>
-              <li><a className="dropdown-item">Romance</a></li>
-              <li><a className="dropdown-item">Sci-Fi</a></li>
-              <li><a className="dropdown-item">Thriller</a></li>
-            </ul>
+  <li><span className="dropdown-item" onClick={() => setSelectedGenre("General")}>General</span></li>
+  <li><span className="dropdown-item" onClick={() => setSelectedGenre("History")}>History</span></li>
+  <li><span className="dropdown-item" onClick={() => setSelectedGenre("Fiction")}>Fiction</span></li>
+  <li><span className="dropdown-item" onClick={() => setSelectedGenre("Religion")}>Religion</span></li>
+  <li><span className="dropdown-item" onClick={() => setSelectedGenre("All")}>Show All</span></li>
+</ul>
+
           </div>
 
           {/* RECOMMENDED */}
@@ -86,10 +208,12 @@ function Homepage() {
               Recommended
             </span>
             <ul className="dropdown-menu">
-              <li><a className="dropdown-item">Top Rated</a></li>
-              <li><a className="dropdown-item">Editor's Picks</a></li>
-              <li><a className="dropdown-item">Trending Now</a></li>
-            </ul>
+  <li><span className="dropdown-item" onClick={() => setRecommendedFilter("Top Rated")}>Top Rated</span></li>
+  <li><span className="dropdown-item" onClick={() => setRecommendedFilter("Editor's Picks")}>Editor's Picks</span></li>
+  <li><span className="dropdown-item" onClick={() => setRecommendedFilter("Trending")}>Trending Now</span></li>
+  <li><span className="dropdown-item" onClick={() => setRecommendedFilter("None")}>Show All</span></li>
+</ul>
+
           </div>
 
           {/* LANGUAGE */}
@@ -98,35 +222,47 @@ function Homepage() {
               Language
             </span>
             <ul className="dropdown-menu">
-              <li><a className="dropdown-item">English</a></li>
-              <li><a className="dropdown-item">Hindi</a></li>
-              <li><a className="dropdown-item">Gujarati</a></li>
-            </ul>
+  <li><span className="dropdown-item" onClick={() => setSelectedLanguage("English")}>English</span></li>
+  <li><span className="dropdown-item" onClick={() => setSelectedLanguage("Hindi")}>Hindi</span></li>
+  <li><span className="dropdown-item" onClick={() => setSelectedLanguage("Gujarati")}>Gujarati</span></li>
+  <li><span className="dropdown-item" onClick={() => setSelectedLanguage("All")}>Show All</span></li>
+</ul>
+
           </div>
 
-          {/* AGE */}
-          <div className="dropdown category-item">
-            <span className="dropdown-toggle" data-bs-toggle="dropdown">
-              Age
-            </span>
-            <ul className="dropdown-menu">
-              <li><a className="dropdown-item">Kids</a></li>
-              <li><a className="dropdown-item">Teens</a></li>
-              <li><a className="dropdown-item">Adults</a></li>
-            </ul>
-          </div>
+          
 
-          {/* PUBLISHER */}
-          <div className="dropdown category-item">
-            <span className="dropdown-toggle" data-bs-toggle="dropdown">
-              Publisher
-            </span>
-            <ul className="dropdown-menu">
-              <li><a className="dropdown-item">Penguin</a></li>
-              <li><a className="dropdown-item">HarperCollins</a></li>
-              <li><a className="dropdown-item">Scholastic</a></li>
-            </ul>
-          </div>
+          {/* AUTHOR */}
+<div className="dropdown category-item">
+  <span className="dropdown-toggle" data-bs-toggle="dropdown">
+    Author
+  </span>
+
+  <ul className="dropdown-menu">
+    {fixedAuthorList.map((auth, idx) => (
+      <li key={idx}>
+        <span
+          className="dropdown-item"
+          onClick={() => setSelectedAuthor(auth)}
+        >
+          {auth}
+        </span>
+      </li>
+    ))}
+
+    <li><hr className="dropdown-divider" /></li>
+
+    <li>
+      <span
+        className="dropdown-item"
+        onClick={() => setSelectedAuthor("All")}
+      >
+        Show All
+      </span>
+    </li>
+  </ul>
+</div>
+
 
         </div>
       </div>
@@ -134,19 +270,54 @@ function Homepage() {
       {/* MAIN CONTENT */}
       <div className="container mt-4">
         <h2 className="section-title">Now Trending</h2>
-        <div className="row g-4 mt-3">
-          {placeholderBooks.map((_, i) => (
-            <div className="col-6 col-md-3" key={i}>
-              <div className="book-card">
-                <img src={`https://picsum.photos/200/300?random=${i}`} />
-                <div className="book-info">
-                  <h5>Book {i + 1}</h5>
-                  <p>Author Name</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+<div className="row g-4 mt-3">
+  {loading && <p>Loading books...</p>}
+
+  {!loading && books.length === 0 && <p>No books available</p>}
+
+  {!loading &&
+    displayedBooks.map((book) => (
+      <div className="col-6 col-md-3" key={book.id}>
+        <div
+  className="book-card"
+  onClick={() => window.location.href = `/book/${book.id}`}
+  style={{ cursor: "pointer" }}
+>
+  <img src={book.image} alt={book.title} />
+  <div className="book-info">
+    <h5>{book.title}</h5>
+    <p>{book.author}</p>
+    <p>₹{book.price}</p>
+  </div>
+</div>
+
+      </div>
+    ))}
+{visibleCount < books.length && (
+  <div className="text-center mt-3">
+    <button
+      className="btn btn-outline-primary"
+      onClick={() => setVisibleCount(visibleCount + 8)}
+    >
+      Load More
+    </button>
+  </div>
+)}
+
+{visibleCount > 8 && (
+  <div className="text-center mt-2">
+    <button
+      className="btn btn-outline-secondary"
+      onClick={() => setVisibleCount(8)}
+    >
+      Show Less
+    </button>
+  </div>
+)}
+
+
+</div>
+
 
         <h2 className="section-title mt-5">Best Sellers</h2>
         <div className="row g-4 mt-3">

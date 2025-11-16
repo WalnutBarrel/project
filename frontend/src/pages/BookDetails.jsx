@@ -30,6 +30,24 @@ function BookDetails() {
   if (loading) return <p className="text-center mt-5">Loading Book...</p>;
   if (!book) return <p className="text-center mt-5">Book not found</p>;
 
+const addToCart = (book) => {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // Check if book already in cart
+  const existing = cart.find((item) => item.id === book.id);
+
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({ ...book, quantity: 1 });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("Book added to cart!");
+};
+
+
+
   return (
     <>
     
@@ -62,7 +80,13 @@ function BookDetails() {
             {/* Buttons */}
             <div className="mt-4 d-flex gap-3">
               <button className="btn btn-danger px-4">Buy Now</button>
-              <button className="btn btn-outline-warning px-4">Add to Cart</button>
+              <button
+  className="btn btn-outline-warning px-4"
+  onClick={() => addToCart(book)}
+>
+  Add to Cart
+</button>
+
               <button
                 className="btn btn-outline-secondary px-4"
                 onClick={() => navigate(-1)}

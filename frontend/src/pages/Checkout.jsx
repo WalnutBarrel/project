@@ -1,8 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import "./Checkout.css";
 
 function Checkout() {
+  const [cart, setCart] = useState([]);
+
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("cart")) || [];
+    setCart(saved);
+  }, []);
+
+  const updateCart = (newCart) => {
+    setCart(newCart);
+    localStorage.setItem("cart", JSON.stringify(newCart));
+  };
+
+  const increaseQty = (id) => {
+    const updated = cart.map((item) =>
+      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+    );
+    updateCart(updated);
+  };
+
+  const decreaseQty = (id) => {
+    const updated = cart
+      .map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+      )
+      .filter((item) => item.quantity > 0);
+    updateCart(updated);
+  };
+
+  const removeItem = (id) => {
+    const updated = cart.filter((item) => item.id !== id);
+    updateCart(updated);
+  };
+
+  const subtotal = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  const shipping = cart.length > 0 ? 50 : 0;
+  const total = subtotal + shipping;
+
   return (
     <div className="checkout-page py-5">
       <Container>
@@ -86,49 +127,63 @@ function Checkout() {
             </Card>
           </Col>
 
-          {/* RIGHT — Order Summary */}
+          {/* RIGHT — Order Summary (REAL CART ITEMS) */}
           <Col md={5}>
             <Card className="shadow-sm border-0 sticky-md-top">
               <Card.Body>
                 <h4 className="fw-semibold text-secondary mb-4">Order Summary</h4>
 
-                <div className="order-item d-flex align-items-center mb-3">
-                  <img
-                    src="https://images.unsplash.com/photo-1528207776546-365bb710ee93"
-                    alt="Book"
-                    className="order-img me-3"
-                  />
-                  <div>
-                    <h6 className="mb-1 fw-semibold">The Silent Ocean</h6>
-                    <p className="text-muted small mb-0">₹499</p>
-                  </div>
-                </div>
+                {cart.length === 0 && <p>Your cart is empty.</p>}
 
-                <div className="order-item d-flex align-items-center mb-3">
-                  <img
-                    src="https://images.unsplash.com/photo-1532012197267-da84d127e765"
-                    alt="Book"
-                    className="order-img me-3"
-                  />
-                  <div>
-                    <h6 className="mb-1 fw-semibold">Winds of Winter</h6>
-                    <p className="text-muted small mb-0">₹699</p>
+                {cart.map((item) => (
+                  <div className="order-item d-flex align-items-center mb-3" key={item.id}>
+                    <img src={item.image} alt={item.title} className="order-img me-3" />
+
+                    <div className="flex-grow-1">
+                      <h6 className="mb-1 fw-semibold">{item.title}</h6>
+                      <p className="text-muted small mb-1">₹{item.price}</p>
+
+                      <div className="d-flex align-items-center">
+                        <button
+                          className="btn btn-sm btn-secondary"
+                          onClick={() => decreaseQty(item.id)}
+                        >
+                          -
+                        </button>
+                        <span className="mx-2">{item.quantity}</span>
+                        <button
+                          className="btn btn-sm btn-secondary"
+                          onClick={() => increaseQty(item.id)}
+                        >
+                          +
+                        </button>
+
+                        <button
+                          className="btn btn-sm btn-danger ms-3"
+                          onClick={() => removeItem(item.id)}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ))}
 
                 <hr />
 
                 <div className="d-flex justify-content-between mb-2">
                   <span>Subtotal</span>
-                  <span>₹1,198</span>
+                  <span>₹{subtotal}</span>
                 </div>
+
                 <div className="d-flex justify-content-between mb-2">
                   <span>Shipping</span>
-                  <span>₹50</span>
+                  <span>₹{shipping}</span>
                 </div>
+
                 <div className="d-flex justify-content-between fw-bold fs-5 mt-3">
                   <span>Total</span>
-                  <span>₹1,248</span>
+                  <span>₹{total}</span>
                 </div>
               </Card.Body>
             </Card>

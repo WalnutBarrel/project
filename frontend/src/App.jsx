@@ -1,4 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
+import { useState } from "react";
 import Homepage from "./pages/Homepage.jsx";
 import LoginSignup from "./pages/LoginSignup.jsx";
 import About from "./pages/About.jsx";
@@ -11,16 +12,29 @@ import "./App.css";
 
 function App() {
   const location = useLocation();
+
+  // hide header/footer for login page
   const hideHeaderFooterPaths = ["/login"];
   const hideHeaderFooter = hideHeaderFooterPaths.includes(location.pathname);
+
+  // ⭐ Search State (LIFTED UP)
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <>
       {/* Header (hidden on /login) */}
-      {!hideHeaderFooter && <Header />}
+      {!hideHeaderFooter && (
+        <Header
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+      )}
 
       <Routes>
-        <Route path="/" element={<Homepage />} />
+        <Route
+          path="/"
+          element={<Homepage searchQuery={searchQuery} />}
+        />
         <Route path="/login" element={<LoginSignup />} />
         <Route path="/about" element={<About />} />
         <Route path="/help" element={<Help />} />

@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import "./Checkout.css";
+import axios from "axios";
+
 
 function Checkout() {
   const [cart, setCart] = useState([]);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [postal, setPostal] = useState("");
+  const [phone, setPhone] = useState("");
+
 
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("cart")) || [];
@@ -44,6 +54,44 @@ function Checkout() {
   const shipping = cart.length > 0 ? 50 : 0;
   const total = subtotal + shipping;
 
+  const placeOrder = async () => {
+  const user_id = localStorage.getItem("user_id");
+
+  if (!user_id) {
+    alert("You must be logged in to place an order");
+    return;
+  }
+
+  const orderData = {
+    user_id: user_id,
+    name: firstName + " " + lastName,
+    email: email,
+    address: address,
+    city: city,
+    postal_code: postal,
+    phone: phone,
+    payment_method: "COD",
+    total: total,
+    items: cart.map(item => ({
+      book: item.id,
+      quantity: item.quantity,
+      price: item.price
+    }))
+  };
+
+  try {
+    const res = await axios.post("http://127.0.0.1:8000/api/orders/", orderData);
+    alert("Order placed successfully!");
+    localStorage.removeItem("cart");
+    window.location.href = "/";
+  } catch (err) {
+    console.error(err);
+    alert("Order failed");
+  }
+};
+
+
+
   return (
     <div className="checkout-page py-5">
       <Container>
@@ -62,43 +110,81 @@ function Checkout() {
               <Card.Body>
                 <h4 className="fw-semibold text-secondary mb-4">Shipping Details</h4>
                 <Form>
-                  <Row>
-                    <Col md={6} className="mb-3">
-                      <Form.Label>First Name</Form.Label>
-                      <Form.Control type="text" placeholder="John" required />
-                    </Col>
-                    <Col md={6} className="mb-3">
-                      <Form.Label>Last Name</Form.Label>
-                      <Form.Control type="text" placeholder="Doe" required />
-                    </Col>
-                  </Row>
+  <Row>
+    <Col md={6} className="mb-3">
+      <Form.Label>First Name</Form.Label>
+      <Form.Control 
+        type="text" 
+        placeholder="John"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
+      />
+    </Col>
 
-                  <Form.Group className="mb-3">
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control type="email" placeholder="example@email.com" required />
-                  </Form.Group>
+    <Col md={6} className="mb-3">
+      <Form.Label>Last Name</Form.Label>
+      <Form.Control 
+        type="text" 
+        placeholder="Doe"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+      />
+    </Col>
+  </Row>
 
-                  <Form.Group className="mb-3">
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control type="text" placeholder="123 Main St" required />
-                  </Form.Group>
+  <Form.Group className="mb-3">
+    <Form.Label>Email Address</Form.Label>
+    <Form.Control 
+      type="email" 
+      placeholder="example@gmail.com"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+    />
+  </Form.Group>
 
-                  <Row>
-                    <Col md={6} className="mb-3">
-                      <Form.Label>City</Form.Label>
-                      <Form.Control type="text" placeholder="Mumbai" required />
-                    </Col>
-                    <Col md={6} className="mb-3">
-                      <Form.Label>Postal Code</Form.Label>
-                      <Form.Control type="text" placeholder="400001" required />
-                    </Col>
-                  </Row>
+  <Form.Group className="mb-3">
+    <Form.Label>Address</Form.Label>
+    <Form.Control 
+      type="text" 
+      placeholder="123 Main St"
+      value={address}
+      onChange={(e) => setAddress(e.target.value)}
+    />
+  </Form.Group>
 
-                  <Form.Group className="mb-4">
-                    <Form.Label>Phone Number</Form.Label>
-                    <Form.Control type="text" placeholder="+91 98765 43210" required />
-                  </Form.Group>
-                </Form>
+  <Row>
+    <Col md={6} className="mb-3">
+      <Form.Label>City</Form.Label>
+      <Form.Control 
+        type="text" 
+        placeholder="Mumbai"
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+      />
+    </Col>
+
+    <Col md={6} className="mb-3">
+      <Form.Label>Postal Code</Form.Label>
+      <Form.Control 
+        type="text" 
+        placeholder="400001"
+        value={postal}
+        onChange={(e) => setPostal(e.target.value)}
+      />
+    </Col>
+  </Row>
+
+  <Form.Group className="mb-4">
+    <Form.Label>Phone Number</Form.Label>
+    <Form.Control 
+      type="text" 
+      placeholder="+91 11223 34455"
+      value={phone}
+      onChange={(e) => setPhone(e.target.value)}
+    />
+  </Form.Group>
+</Form>
+
               </Card.Body>
             </Card>
 
@@ -119,9 +205,15 @@ function Checkout() {
                 </Form>
 
                 <div className="text-center mt-4">
-                  <Button variant="primary" className="px-4 py-2 rounded-pill fw-semibold">
-                    Place Order
-                  </Button>
+                  <Button 
+  variant="primary" 
+  className="px-4 py-2 rounded-pill fw-semibold"
+  onClick={placeOrder}
+>
+  Place Order
+</Button>
+
+
                 </div>
               </Card.Body>
             </Card>

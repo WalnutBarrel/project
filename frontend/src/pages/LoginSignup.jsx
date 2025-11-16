@@ -35,7 +35,7 @@ function LoginSignup() {
   };
 
   // Login Function
-  // Login Function
+
 const handleLogin = async () => {
   if (!email || !password) {
     alert("Email & password required");
@@ -50,14 +50,14 @@ const handleLogin = async () => {
 
     alert(res.data.message);
 
-    // store user in local storage
+    // Save whole user
     localStorage.setItem("user", JSON.stringify(res.data.user));
 
-    // redirect to dashboard
+    // ⭐ Save ONLY the user_id for orders
+    localStorage.setItem("user_id", res.data.user.id);
+
+    // redirect
     window.location.href = "/";
-
-
-
   } catch (err) {
     alert(err.response?.data?.message || "Login failed");
   }

@@ -1,7 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import status
 from .models import User, Book
-from .serializers import UserSerializer, BookSerializer
+from .serializers import UserSerializer, BookSerializer, OrderSerializer
 from django.contrib.auth.hashers import make_password, check_password
 
 # Signup API
@@ -70,3 +71,20 @@ def book_detail(request, pk):
 
     serializer = BookSerializer(book)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def create_order(request):
+    data = request.data.copy()
+
+    # IMPORTANT: convert user_id → user (foreign key)
+    if "user_id" in data:
+        data["user"] = data["user_id"]
+
+    serializer = OrderSerializer(data=data)
+
+    if serializer.is_valid():
+        order = serializer.save()
+        return Response({"message": "Order saved", "order_id": order.id}, status=201)
+
+    return Response(serializer.errors, status=400)

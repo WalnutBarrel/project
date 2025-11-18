@@ -1,0 +1,79 @@
+/* =====================================
+   HERO SLIDER
+===================================== */
+.hero-image {
+  height: 480px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.carousel-caption {
+  background: rgba(0, 0, 0, 0.55);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* =====================================
+   CATEGORY BAR
+===================================== */
+.category-bar {
+  background: var(--card-bg);
+  border-bottom: 2px solid #eee;
+}
+
+.category-item {
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text);
+}
+
+/* =====================================
+   BOOK CARDS
+===================================== */
+.book-card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+.book-card img {
+  height: 240px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.book-info {
+  padding: 12px;
+}
+
+.book-info h5 {
+  font-weight: 600;
+}
+
+/* =====================================
+   NO RESULTS BOX
+===================================== */
+.no-results-box {
+  background: var(--card-bg);
+  padding: 35px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+/* =====================================
+   HIGHLIGHT
+===================================== */
+mark {
+  background: #ffeb3b;
+  padding: 1px 3px;
+  border-radius: 3px;
+}

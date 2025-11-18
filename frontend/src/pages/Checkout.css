@@ -1,10 +1,11 @@
 /* ===== CHECKOUT PAGE ===== */
 .checkout-page {
-  background: #f8f9fc;
+  background: var(--bg);
   min-height: 90vh;
+  color: var(--text);
 }
 
-/* Gradient Title */
+/* Gradient Title (keep as-is, gradients look good in dark mode too) */
 .text-gradient {
   background: linear-gradient(135deg, #1e3c72, #2a5298);
   background-clip: text;
@@ -13,7 +14,31 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* Order Card Styling */
+/* Card Styling */
+.card {
+  background: var(--card-bg) !important;
+  color: var(--text) !important;
+  border-radius: 10px !important;
+  box-shadow: var(--shadow);
+}
+
+/* Form labels */
+.form-label {
+  color: var(--text) !important;
+}
+
+/* Inputs */
+.form-control {
+  background: var(--card-bg) !important;
+  color: var(--text) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.form-control::placeholder {
+  color: var(--muted);
+}
+
+/* Order Summary Book Image */
 .order-item img.order-img {
   width: 70px;
   height: 90px;
@@ -21,17 +46,32 @@
   object-fit: cover;
 }
 
-.card {
-  border-radius: 10px !important;
+/* Order summary row */
+.order-item {
+  background: var(--card-bg);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: var(--shadow);
 }
 
+/* Prices & labels */
+.order-item h6,
+.order-item p,
+.order-summary span {
+  color: var(--text) !important;
+}
+
+/* Primary button */
 button.btn-primary {
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  background: var(--accent) !important;
   border: none;
-  transition: all 0.3s ease;
+  color: #000 !important;
+  font-weight: 600;
+  transition: all 0.25s ease;
 }
 
 button.btn-primary:hover {
-  background: linear-gradient(135deg, #2a5298, #1e3c72);
-  transform: scale(1.05);
+  opacity: 0.9;
+  transform: scale(1.03);
 }

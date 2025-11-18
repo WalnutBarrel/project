@@ -4,40 +4,32 @@ import logo from "../assets/logo.svg";
 import cart from "../assets/cart.svg";
 import "./HeaderFooter.css";
 
-const Header = ({ searchQuery, setSearchQuery }) => {
+const Header = ({ searchQuery, setSearchQuery, darkMode, setDarkMode }) => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Hide header on /login or /register
-  const isAuthPage =
-    location.pathname === "/login" || location.pathname === "/register";
-
-  // ⭐ CART COUNT STATE
   const [cartCount, setCartCount] = useState(0);
 
-  // ⭐ Update cart count whenever cart changes
+  // Update cart count
   useEffect(() => {
-    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
-    const count = cartData.reduce((sum, item) => sum + item.quantity, 0);
-    setCartCount(count);
-  }, [location]); // refresh when route changes
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCartCount(cart.reduce((sum, item) => sum + item.quantity, 0));
+  }, [location.pathname]);
+
+  // Hide header on login page
+  const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
 
   return (
     <header className="header">
-      {/* Logo */}
-      <div
-        className="logo"
-        onClick={() => navigate("/")}
-        style={{ cursor: "pointer" }}
-      >
+      {/* LOGO */}
+      <div className="logo" onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
         <img src={logo} alt="Logo" />
         <span>Beyond Bound Pages</span>
       </div>
 
-      {/* Hide on login/register */}
+      {/* HIDE search + items on login */}
       {!isAuthPage && (
         <>
-          {/* SEARCH BAR */}
+          {/* Search */}
           <input
             type="text"
             className="search"
@@ -47,20 +39,18 @@ const Header = ({ searchQuery, setSearchQuery }) => {
           />
 
           <div className="header-right">
-
-            {/* CART ICON */}
-            <div
-              className="cart-wrapper"
-              onClick={() => navigate("/checkout")}
-              style={{ cursor: "pointer" }}
-            >
+            {/* CART */}
+            <div className="cart-wrapper" onClick={() => navigate("/checkout")}>
               <img src={cart} alt="Cart" className="cart-icon" />
-
-              {/* ⭐ BADGE */}
-              {cartCount > 0 && (
-                <span className="cart-badge">{cartCount}</span>
-              )}
+              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
             </div>
+
+            {/* THEME TOGGLE */}
+            <button className="theme-btn" onClick={() => setDarkMode(!darkMode)}>
+  {darkMode ? "☀️" : "🌙"}
+</button>
+
+
 
             {/* LOGIN BUTTON */}
             <button className="login-btn" onClick={() => navigate("/login")}>

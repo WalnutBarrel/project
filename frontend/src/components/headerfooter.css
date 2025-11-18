@@ -210,3 +210,25 @@ hr {
   padding: 2px 6px;
   border-radius: 50%;
 }
+
+
+/* SMALL THEME TOGGLE BUTTON */
+.theme-btn {
+  background: #fff;
+  color: #0d6efd;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-btn:hover {
+  background: #ffb703;
+  color: #212529;
+}

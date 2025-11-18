@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import cart from "../assets/cart.svg";
+import { User, LogIn, ListOrdered, ShoppingCart } from "lucide-react";
 import "./HeaderFooter.css";
 
 const Header = ({ searchQuery, setSearchQuery, darkMode, setDarkMode }) => {
@@ -39,24 +40,34 @@ const Header = ({ searchQuery, setSearchQuery, darkMode, setDarkMode }) => {
           />
 
           <div className="header-right">
-            {/* CART */}
-            <div className="cart-wrapper" onClick={() => navigate("/checkout")}>
-              <img src={cart} alt="Cart" className="cart-icon" />
-              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-            </div>
 
-            {/* THEME TOGGLE */}
-            <button className="theme-btn" onClick={() => setDarkMode(!darkMode)}>
-  {darkMode ? "☀️" : "🌙"}
-</button>
+  {/* CART */}
+  <div className="icon-btn" onClick={() => navigate("/checkout")} title="My Orders">
+    <ShoppingCart size={22} />
+  </div>
 
+  {/* My Orders */}
+  <div className="icon-btn" onClick={() => navigate("/my-orders")} title="My Orders">
+    <ListOrdered size={22} />
+  </div>
 
+  {/* Profile */}
+  <div className="icon-btn" onClick={() => navigate("/profile")} title="Profile">
+    <User size={22} />
+  </div>
 
-            {/* LOGIN BUTTON */}
-            <button className="login-btn" onClick={() => navigate("/login")}>
-              Login
-            </button>
-          </div>
+  {/* Login */}
+  <div className="icon-btn" onClick={() => navigate("/login")} title="Login">
+    <LogIn size={22} />
+  </div>
+
+  {/* Dark Mode Toggle */}
+  <div className="theme-toggle-simple icon-btn" onClick={() => setDarkMode(!darkMode)}>
+    {darkMode ? "🌙" : "☀️"}
+  </div>
+
+</div>
+
         </>
       )}
     </header>

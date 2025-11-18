@@ -1,9 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework import status
-from .models import User, Book
+from rest_framework import status, permissions
+from .models import User, Book, Order
 from .serializers import UserSerializer, BookSerializer, OrderSerializer
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth import get_user_model
 
 # Signup API
 @api_view(['POST'])
@@ -88,3 +89,33 @@ def create_order(request):
         return Response({"message": "Order saved", "order_id": order.id}, status=201)
 
     return Response(serializer.errors, status=400)
+
+
+@api_view(['GET'])
+def my_orders(request):
+    """
+    GET /api/my-orders/?user_id=<id>
+
+    Returns all orders for the given user.
+    """
+    user_id = request.GET.get("user_id")
+
+    if not user_id:
+        return Response({"message": "user_id is required"}, status=400)
+
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return Response({"message": "User not found"}, status=404)
+
+    # Get all orders for this user
+    orders = Order.objects.filter(user=user).order_by('-id')
+
+    serializer = OrderSerializer(orders, many=True)
+    return Response(serializer.data, status=200)
+
+@api_view(['GET'])
+def user_orders(request, user_id):
+    orders = Order.objects.filter(user=user_id).order_by('-id')
+    serializer = OrderSerializer(orders, many=True)
+    return Response(serializer.data)

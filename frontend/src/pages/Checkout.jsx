@@ -63,32 +63,38 @@ function Checkout() {
   }
 
   const orderData = {
-    user_id: user_id,
-    name: firstName + " " + lastName,
-    email: email,
-    address: address,
-    city: city,
+    user: user_id,                                    // FIXED
+    name: `${firstName} ${lastName}`,
+    email,
+    address,
+    city,
     postal_code: postal,
-    phone: phone,
+    phone,
     payment_method: "COD",
-    total: total,
+    total,
     items: cart.map(item => ({
-      book: item.id,
+      book_id: item.id,                               // CORRECT
       quantity: item.quantity,
       price: item.price
     }))
   };
 
   try {
-    const res = await axios.post("http://127.0.0.1:8000/api/orders/", orderData);
+    const res = await axios.post(
+      "http://127.0.0.1:8000/api/orders/",
+      orderData
+    );
+
     alert("Order placed successfully!");
     localStorage.removeItem("cart");
     window.location.href = "/";
+  
   } catch (err) {
-    console.error(err);
+    console.error("ORDER ERROR:", err.response?.data);
     alert("Order failed");
   }
 };
+
 
 
 
@@ -109,12 +115,14 @@ function Checkout() {
             <Card className="shadow-sm border-0 mb-4">
               <Card.Body>
                 <h4 className="fw-semibold text-secondary mb-4">Shipping Details</h4>
+                
+                
                 <Form>
   <Row>
     <Col md={6} className="mb-3">
       <Form.Label>First Name</Form.Label>
       <Form.Control 
-        type="text" 
+        type="text"
         placeholder="John"
         value={firstName}
         onChange={(e) => setFirstName(e.target.value)}
@@ -123,67 +131,68 @@ function Checkout() {
 
     <Col md={6} className="mb-3">
       <Form.Label>Last Name</Form.Label>
-      <Form.Control 
-        type="text" 
+      <Form.Control
+        type="text"
         placeholder="Doe"
         value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
+        onChange={(e) => setLastName(e.target.value)}    // FIXED
       />
     </Col>
   </Row>
 
   <Form.Group className="mb-3">
     <Form.Label>Email Address</Form.Label>
-    <Form.Control 
-      type="email" 
+    <Form.Control
+      type="email"
       placeholder="example@gmail.com"
       value={email}
-      onChange={(e) => setEmail(e.target.value)}
+      onChange={(e) => setEmail(e.target.value)}         // FIXED
     />
   </Form.Group>
 
   <Form.Group className="mb-3">
     <Form.Label>Address</Form.Label>
-    <Form.Control 
-      type="text" 
+    <Form.Control
+      type="text"
       placeholder="123 Main St"
       value={address}
-      onChange={(e) => setAddress(e.target.value)}
+      onChange={(e) => setAddress(e.target.value)}       // FIXED
     />
   </Form.Group>
 
   <Row>
     <Col md={6} className="mb-3">
       <Form.Label>City</Form.Label>
-      <Form.Control 
-        type="text" 
+      <Form.Control
+        type="text"
         placeholder="Mumbai"
         value={city}
-        onChange={(e) => setCity(e.target.value)}
+        onChange={(e) => setCity(e.target.value)}         // FIXED
       />
     </Col>
 
     <Col md={6} className="mb-3">
       <Form.Label>Postal Code</Form.Label>
-      <Form.Control 
-        type="text" 
+      <Form.Control
+        type="text"
         placeholder="400001"
         value={postal}
-        onChange={(e) => setPostal(e.target.value)}
+        onChange={(e) => setPostal(e.target.value)}       // FIXED
       />
     </Col>
   </Row>
 
   <Form.Group className="mb-4">
     <Form.Label>Phone Number</Form.Label>
-    <Form.Control 
-      type="text" 
+    <Form.Control
+      type="text"
       placeholder="+91 11223 34455"
       value={phone}
-      onChange={(e) => setPhone(e.target.value)}
+      onChange={(e) => setPhone(e.target.value)}          // FIXED
     />
   </Form.Group>
 </Form>
+
 
               </Card.Body>
             </Card>

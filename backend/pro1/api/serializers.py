@@ -12,9 +12,13 @@ class BookSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    # show book details nested (read-only)
+    book = BookSerializer(read_only=True)
+    book_id = serializers.IntegerField(write_only=True, required=False)
+
     class Meta:
         model = OrderItem
-        fields = ['book', 'quantity', 'price']
+        fields = ['id', 'book', 'book_id', 'quantity', 'price']
 
 
 class OrderSerializer(serializers.ModelSerializer):

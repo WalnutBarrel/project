@@ -8,6 +8,8 @@ import Checkout from "./pages/Checkout.jsx";
 import BookDetails from "./pages/BookDetails.jsx";
 import Header from "./components/header.jsx";
 import Footer from "./components/footer.jsx";
+import MyOrders from "./pages/MyOrders.jsx";
+import Profile from "./pages/Profile.jsx";
 import "./App.css";
 
 function App() {
@@ -59,6 +61,9 @@ function App() {
         <Route path="/help" element={<Help />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/book/:id" element={<BookDetails />} />
+        <Route path="/my-orders" element={<MyOrders />} />
+        <Route path="/profile" element={<Profile />} />
+
       </Routes>
 
       {/* Footer (hidden on /login) */}

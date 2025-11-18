@@ -1,9 +1,11 @@
-/* ===== HEADER ===== */
+/* ============================
+   HEADER
+============================ */
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #0d6efd; /* Primary Blue */
+  background: #0d6efd;
   padding: 15px 30px;
   color: white;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -25,67 +27,113 @@
   border-radius: 8px;
 }
 
-/* Search Bar */
+/* Search bar */
 .search {
   width: 40%;
   padding: 10px 18px;
   border-radius: 25px;
   border: none;
   outline: none;
-  transition: all 0.3s ease;
   background-color: #fff;
   color: #212529;
+  transition: 0.3s;
 }
 
 .search:focus {
   box-shadow: 0 0 5px 2px #ffb703;
 }
 
-/* Right Section */
+/* Right section */
 .header-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
 }
 
-/* Cart Icon */
-.cart-icon {
-  width: 28px;
-  height: 28px;
+/* Cart */
+.cart-wrapper {
+  position: relative;
   cursor: pointer;
-  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.cart-icon:hover {
-  transform: scale(1.2);
+.cart-icon {
+  width: 26px;
+  height: 26px;
+  transition: 0.25s;
+}
+
+.cart-wrapper:hover .cart-icon {
+  transform: scale(1.15);
   filter: brightness(1.2);
 }
 
-/* Login Button */
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: red;
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+/* Small round icon buttons */
+
+.theme-toggle-simple{
+  cursor: pointer;
+}
+
+.icon-btn,
+.theme-btn {
+  width: 36px;
+  height: 36px;
+  background: #ffffff;
+  color: #0d6efd;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid rgba(0,0,0,0.1);
+  transition: 0.25s;
+}
+
+.icon-btn:hover,
+.theme-btn:hover {
+  background: #ffb703;
+  color: #212529;
+  transform: scale(1.1);
+}
+
+/* Login button */
 .login-btn {
   color: #0d6efd;
-  background: #fff;
+  background: white;
   border: none;
   padding: 8px 18px;
   border-radius: 25px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: 0.25s;
 }
 
 .login-btn:hover {
-  background-color: #ffb703;
+  background: #ffb703;
   color: #212529;
 }
 
-/* ===== FOOTER ===== */
-.footer {
-  background-color: #0d6efd;
-  color: white;
-  padding: 25px 0;
+/* ============================
+   FOOTER (MATCHING HEADER)
+============================ */
+.footer,
+.modern-footer {
+  background-color: #0d6efd !important; /* exact match with header */
+  color: white !important;
+  padding: 40px 0;
   text-align: center;
   margin-top: 50px;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
 }
 
 .footer-top {
@@ -96,139 +144,68 @@
   padding: 0 40px;
 }
 
-.footer-links {
-  display: flex;
-  gap: 20px;
-}
-
-.footer-links a {
-  color: white;
+/* Footer links */
+.footer-link {
+  color: white !important;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s ease;
+  transition: 0.25s;
 }
 
-.footer-links a:hover {
-  color: #ffb703;
+.footer-link:hover {
+  color: #ffb703 !important;
 }
 
 /* Social Icons */
 .social-icons {
   display: flex;
-  gap: 25px;
+  gap: 20px;
   justify-content: center;
-  margin-top: 10px;
 }
 
 .social-icons img {
-  width: 35px;
-  height: 35px;
-  cursor: pointer;
-  transition: transform 0.3s ease, filter 0.3s ease;
+  width: 28px;
+  height: 28px;
+  transition: 0.25s;
+  filter: brightness(1.1);
 }
 
 .social-icons img:hover {
-  transform: scale(1.2);
-  filter: brightness(1.3);
+  transform: scale(1.15);
+  filter: brightness(1.4);
 }
 
-/* Copyright */
+/* Divider */
+.footer hr {
+  width: 90%;
+  margin: 20px auto;
+  height: 1px;
+  border: none;
+  background: rgba(255,255,255,0.35);
+}
+
 .copyright {
-  text-align: center;
   font-size: 14px;
-  margin-top: 15px;
   opacity: 0.9;
 }
 
-/* Responsive */
+/* ============================
+   RESPONSIVE
+============================ */
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
     text-align: center;
     gap: 12px;
   }
-
+  
   .search {
     width: 90%;
   }
 
   .footer-top {
     flex-direction: column;
-    gap: 10px;
     text-align: center;
+    gap: 12px;
   }
-}
-
-
-/* ===== Modern Footer Styles ===== */
-.modern-footer {
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  color: white;
-  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.1);
-}
-
-.footer-link {
-  color: #ffffff;
-  font-weight: 500;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.footer-link:hover {
-  color: #ffd700;
-}
-
-.social-icons img {
-  width: 32px;
-  height: 32px;
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-.social-icons img:hover {
-  transform: scale(1.15);
-  filter: brightness(1.3);
-}
-
-hr {
-  border: 0;
-  height: 1px;
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-
-.cart-wrapper {
-  position: relative;
-}
-
-.cart-badge {
-  position: absolute;
-  top: -5px;
-  right: -10px;
-  background: red;
-  color: white;
-  font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 50%;
-}
-
-
-/* SMALL THEME TOGGLE BUTTON */
-.theme-btn {
-  background: #fff;
-  color: #0d6efd;
-  border: none;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.theme-btn:hover {
-  background: #ffb703;
-  color: #212529;
 }

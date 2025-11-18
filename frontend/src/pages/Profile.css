@@ -1,0 +1,44 @@
+.profile-container {
+  padding: 40px;
+  text-align: center;
+}
+
+.profile-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--header-bg);
+}
+
+.profile-card {
+  margin: 30px auto;
+  width: 350px;
+  background: var(--card-bg);
+  color: var(--text);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  text-align: left;
+}
+
+.profile-card h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  margin-top: 20px;
+  border-radius: 6px;
+  background: crimson;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background: darkred;
+}

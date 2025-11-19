@@ -16,21 +16,24 @@ const Header = ({ searchQuery, setSearchQuery, darkMode, setDarkMode }) => {
 
   // Fetch books once
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/api/books/")
-      .then(res => setAllBooks(res.data))
-      .catch(err => console.error(err));
+    axios
+      .get("http://127.0.0.1:8000/api/books/")
+      .then((res) => setAllBooks(res.data))
+      .catch((err) => console.error(err));
   }, []);
 
-  // Search filter
+  // Search filter — FIXED (safeQuery)
   useEffect(() => {
-    if (!searchQuery.trim()) return setSuggestions([]);
+    const q = searchQuery || ""; // 🛡️ prevents .trim() crash
 
-    const filtered = allBooks.filter(b =>
-      (b.title + " " + b.author).toLowerCase().includes(searchQuery.toLowerCase())
+    if (!q.trim()) return setSuggestions([]);
+
+    const filtered = allBooks.filter((b) =>
+      (b.title + " " + b.author).toLowerCase().includes(q.toLowerCase())
     );
 
     setSuggestions(filtered.slice(0, 6));
-  }, [searchQuery]);
+  }, [searchQuery, allBooks]);
 
   // Cart count update
   useEffect(() => {
@@ -52,7 +55,7 @@ const Header = ({ searchQuery, setSearchQuery, darkMode, setDarkMode }) => {
       {/* HIDE SEARCH ON LOGIN PAGE */}
       {!isAuthPage && (
         <>
-          {/* 🔍 SEARCH BAR */}
+          {/* 🔍 SEARCH */}
           <div className="search-container">
             <input
               type="text"
@@ -62,7 +65,7 @@ const Header = ({ searchQuery, setSearchQuery, darkMode, setDarkMode }) => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
 
-            {/* SUGGESTION BOX */}
+            {/* SUGGESTIONS */}
             {searchQuery && (
               <div className="suggestion-box">
                 {suggestions.length > 0 ? (
@@ -72,7 +75,7 @@ const Header = ({ searchQuery, setSearchQuery, darkMode, setDarkMode }) => {
                       className="suggestion-item"
                       onClick={() => navigate(`/book/${book.id}`)}
                     >
-                      <img src={book.image} alt="cover" />
+                      <img src={book.image} alt="" />
                       <span>{book.title}</span>
                     </div>
                   ))
@@ -85,7 +88,6 @@ const Header = ({ searchQuery, setSearchQuery, darkMode, setDarkMode }) => {
 
           {/* RIGHT ICONS */}
           <div className="header-right">
-
             {/* CART */}
             <div className="icon-btn" onClick={() => navigate("/checkout")} title="Cart">
               <ShoppingCart size={22} />

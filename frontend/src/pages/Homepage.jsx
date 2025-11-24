@@ -48,7 +48,6 @@ function Homepage({ searchQuery }) {
   };
 
   
-
   /* ================================
       FILTERING LOGIC
   ================================ */

@@ -252,3 +252,65 @@ footer {
     justify-content: center;
   }
 }
+
+/* =============================
+   FLOATING ICON ANIMATIONS
+============================= */
+
+.floating-icons i {
+  position: absolute;
+  font-size: 2.5rem;
+  opacity: 0.2;
+  animation: floatMove 6s ease-in-out infinite;
+}
+
+/* Custom positions */
+.book { top: 10%; left: 10%; }
+.pencil { top: 20%; right: 12%; }
+.journal { bottom: 15%; left: 18%; }
+.pen { bottom: 10%; right: 20%; }
+
+/* Floating Animation */
+@keyframes floatMove {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+/* =============================
+   LOGIN / REGISTER SLIDE ANIM
+============================= */
+
+.auth-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.form-box {
+  transition: all 0.5s ease;
+  opacity: 0;
+  transform: translateX(50px);
+}
+
+/* Show login */
+.show-login .login-box {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Show register */
+.show-register .register-box {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Move out hidden one */
+.show-login .register-box {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+
+.show-register .login-box {
+  opacity: 0;
+  transform: translateX(50px);
+}

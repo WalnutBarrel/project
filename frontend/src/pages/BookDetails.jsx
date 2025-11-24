@@ -4,6 +4,8 @@ import axios from "axios";
 import "./BookDetails.css";
 import Header from "../components/header.jsx";
 import Footer from "../components/footer.jsx";
+import Swal from "sweetalert2";
+
 
 function BookDetails() {
   const { id } = useParams();
@@ -12,28 +14,103 @@ function BookDetails() {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // FALLBACK BOOKS (same as Homepage)
+const fallbackBooks = [
+  {
+    id: "f1",
+    title: "The Great Adventure",
+    author: "John Writer",
+    price: 199,
+    image: "https://images.unsplash.com/photo-1529655683826-aba9b3e77383",
+    genre: "Fiction",
+    rating: 4.3,
+    description: "An action-packed journey through mysterious lands.",
+  },
+  {
+    id: "f2",
+    title: "History of the World",
+    author: "Anna Stone",
+    price: 299,
+    image: "https://images.unsplash.com/photo-1544936207-710633d84635",
+    genre: "History",
+    rating: 4.5,
+    description: "A detailed history of civilizations across centuries.",
+  },
+  {
+    id: "f3",
+    title: "Mystery House",
+    author: "Lia Carter",
+    price: 150,
+    image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c",
+    genre: "Fiction",
+    rating: 4.0,
+    description: "A thrilling story of puzzles and hidden secrets.",
+  },
+  {
+    id: "f4",
+    title: "Religious Teachings",
+    author: "Swami Dev",
+    price: 180,
+    image: "https://images.unsplash.com/photo-1519681393784-d120267933ba",
+    genre: "Religion",
+    rating: 4.1,
+    description: "Inspirational teachings from ancient scriptures.",
+  },
+];
+
+
   useEffect(() => {
-    const fetchBook = async () => {
-      try {
-        const res = await axios.get(`http://127.0.0.1:8000/api/books/${id}/`);
-        setBook(res.data);
-      } catch (err) {
-        console.error("Failed to fetch book:", err);
-      } finally {
-        setLoading(false);
+  const fetchBook = async () => {
+    try {
+      const res = await axios.get(`http://127.0.0.1:8000/api/books/${id}/`);
+      setBook(res.data);   // backend book
+    } catch (err) {
+      console.log("Backend unavailable → using fallback");
+
+      // find fallback book matching id
+      const offlineBook = fallbackBooks.find((b) => b.id === id);
+
+      if (offlineBook) {
+        setBook(offlineBook);
+      } else {
+        setBook(null); // not found anywhere
       }
-    };
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchBook();
-  }, [id]);
+  fetchBook();
+}, [id]);
 
-  if (loading) return <p className="text-center mt-5">Loading Book...</p>;
+
+  if (loading) {
+  return (
+    <div className="container book-details-page mt-5">
+      <div className="row">
+        
+        {/* Image skeleton */}
+        <div className="col-md-4">
+          <div className="book-loader loader-img"></div>
+        </div>
+
+        {/* Text skeleton */}
+        <div className="col-md-8">
+          <div className="book-loader loader-title"></div>
+          <div className="book-loader loader-author"></div>
+          <div className="book-loader loader-desc"></div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
   if (!book) return <p className="text-center mt-5">Book not found</p>;
 
 const addToCart = (book) => {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  // Check if book already in cart
   const existing = cart.find((item) => item.id === book.id);
 
   if (existing) {
@@ -43,8 +120,17 @@ const addToCart = (book) => {
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
-  alert("Book added to cart!");
+
+  // SweetAlert success popup
+  Swal.fire({
+    icon: "success",
+    title: "Added to Cart!",
+    text: `${book.title} has been added to your cart.`,
+    showConfirmButton: false,
+    timer: 1500,
+  });
 };
+
 
 
 

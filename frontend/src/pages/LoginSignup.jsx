@@ -3,6 +3,7 @@ import "./auth.css";
 import Header from "../components/header.jsx";
 import Footer from "../components/footer.jsx";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function LoginSignup() {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,7 +16,11 @@ function LoginSignup() {
   // Signup Function
   const handleSignup = async () => {
     if (!name || !email || !password) {
-      alert("All fields are required");
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Details",
+        text: "All fields are required!",
+      });
       return;
     }
 
@@ -25,44 +30,63 @@ function LoginSignup() {
         email,
         password,
       });
-      alert(res.data.message);
+
+      Swal.fire({
+        icon: "success",
+        title: "Registration Successful!",
+        text: res.data.message,
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
       setIsLogin(true);
     } catch (err) {
-      console.log(err);  
-      alert(JSON.stringify(err.response?.data || err));
-
+      Swal.fire({
+        icon: "error",
+        title: "Signup Failed",
+        text: err.response?.data?.message || "Something went wrong",
+      });
     }
   };
 
   // Login Function
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Details",
+        text: "Email & Password are required!",
+      });
+      return;
+    }
 
-const handleLogin = async () => {
-  if (!email || !password) {
-    alert("Email & password required");
-    return;
-  }
+    try {
+      const res = await axios.post("http://127.0.0.1:8000/api/login/", {
+        email,
+        password,
+      });
 
-  try {
-    const res = await axios.post("http://127.0.0.1:8000/api/login/", {
-      email,
-      password,
-    });
+      // Save user
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      localStorage.setItem("user_id", res.data.user.id);
 
-    alert(res.data.message);
-
-    // Save whole user
-    localStorage.setItem("user", JSON.stringify(res.data.user));
-
-    // ⭐ Save ONLY the user_id for orders
-    localStorage.setItem("user_id", res.data.user.id);
-
-    // redirect
-    window.location.href = "/";
-  } catch (err) {
-    alert(err.response?.data?.message || "Login failed");
-  }
-};
-
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful!",
+        text: res.data.message,
+        timer: 1500,
+        showConfirmButton: false,
+      }).then(() => {
+        window.location.href = "/";
+      });
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: err.response?.data?.message || "Incorrect email or password",
+      });
+    }
+  };
 
   return (
     <>

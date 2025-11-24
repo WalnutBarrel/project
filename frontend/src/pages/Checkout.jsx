@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import "./Checkout.css";
 import axios from "axios";
+import Swal from "sweetalert2";
+
 
 
 function Checkout() {
@@ -58,12 +60,25 @@ function Checkout() {
   const user_id = localStorage.getItem("user_id");
 
   if (!user_id) {
-    alert("You must be logged in to place an order");
+    Swal.fire({
+      icon: "warning",
+      title: "Login Required",
+      text: "You must be logged in to place an order.",
+    });
+    return;
+  }
+
+  if (!firstName || !lastName || !email || !address || !city || !postal || !phone) {
+    Swal.fire({
+      icon: "warning",
+      title: "Missing Details",
+      text: "Please fill all shipping details before placing the order.",
+    });
     return;
   }
 
   const orderData = {
-    user: user_id,                                    // FIXED
+    user: user_id,
     name: `${firstName} ${lastName}`,
     email,
     address,
@@ -73,27 +88,37 @@ function Checkout() {
     payment_method: "COD",
     total,
     items: cart.map(item => ({
-      book_id: item.id,                               // CORRECT
+      book_id: item.id,
       quantity: item.quantity,
       price: item.price
     }))
   };
 
   try {
-    const res = await axios.post(
-      "http://127.0.0.1:8000/api/orders/",
-      orderData
-    );
+    const res = await axios.post("http://127.0.0.1:8000/api/orders/", orderData);
 
-    alert("Order placed successfully!");
-    localStorage.removeItem("cart");
-    window.location.href = "/";
-  
+    Swal.fire({
+      icon: "success",
+      title: "Order Placed!",
+      text: "Your order has been successfully placed.",
+      timer: 2000,
+      showConfirmButton: false,
+    }).then(() => {
+      localStorage.removeItem("cart");
+      window.location.href = "/";
+    });
+
   } catch (err) {
     console.error("ORDER ERROR:", err.response?.data);
-    alert("Order failed");
+
+    Swal.fire({
+      icon: "error",
+      title: "Order Failed",
+      text: err.response?.data?.message || "Something went wrong.",
+    });
   }
 };
+
 
 
 

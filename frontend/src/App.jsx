@@ -50,7 +50,7 @@ function App() {
 />
 
       )}
-
+<div className="page-transition">
       <Routes>
         <Route
           path="/"
@@ -65,7 +65,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
 
       </Routes>
-
+</div>
       {/* Footer (hidden on /login) */}
       {!hideHeaderFooter && <Footer />}
     </>

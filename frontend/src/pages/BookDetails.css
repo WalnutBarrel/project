@@ -55,3 +55,24 @@
 .btn-outline-secondary:hover {
   background-color: #eeeeee;
 }
+
+/* ===============================
+   BOOK DETAILS LOADING SKELETON
+=============================== */
+
+.book-loader {
+  animation: skeleton 1.5s infinite linear;
+  background: linear-gradient(90deg, #eee, #f5f5f5, #eee);
+  background-size: 200% 100%;
+  border-radius: 8px;
+}
+
+@keyframes skeleton {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.loader-img { height: 350px; width: 100%; }
+.loader-title { height: 30px; width: 60%; margin-top: 20px; }
+.loader-author { height: 20px; width: 40%; margin-top: 10px; }
+.loader-desc { height: 80px; width: 100%; margin-top: 20px; }

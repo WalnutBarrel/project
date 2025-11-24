@@ -26,9 +26,18 @@ const Footer = () => {
               <Link to="/help" className="footer-link">Help</Link>
 
               <div className="social-icons d-flex gap-3">
-                <a href="#"><img src={facebook} alt="Facebook" /></a>
-                <a href="#"><img src={instagram} alt="Instagram" /></a>
-                <a href="#"><img src={linkedin} alt="LinkedIn" /></a>
+                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+  <img src={facebook} alt="Facebook" />
+</a>
+
+<a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+  <img src={instagram} alt="Instagram" />
+</a>
+
+<a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+  <img src={linkedin} alt="LinkedIn" />
+</a>
+
               </div>
             </div>
           </Col>
